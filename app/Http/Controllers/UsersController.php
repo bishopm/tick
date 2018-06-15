@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Project;
-use App\Repositories\ProjectsRepository;
+use App\Repositories\UsersRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ProjectsController extends Controller
+class UsersController extends Controller
 {
     /**
-     * @var ProjectRepository
+     * @var UserRepository
      */
-    private $project;
+    private $user;
 
-    public function __construct(ProjectsRepository $project)
+    public function __construct(UsersRepository $user)
     {
-        $this->project = $project;
+        $this->user = $user;
     }
 
     /**
@@ -27,12 +28,12 @@ class ProjectsController extends Controller
 
     public function index()
     {
-        return $this->project->all();
+        return $this->user->all();
     }
 
     public function show($id)
     {
-        return Project::with('tasks')->find($id);
+        return User::with('project')->find($id);
     }
 
     /**
@@ -43,30 +44,30 @@ class ProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->project->create($request->all());
+        return $this->user->create($request->all());
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Project $project
+     * @param  User $user
      * @param  Request $request
      * @return Response
      */
-    public function update(Project $project, Request $request)
+    public function update(User $user, Request $request)
     {
-        return $this->project->update($project, $request->all());
+        return $this->user->update($user, $request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Project $project
+     * @param  User $user
      * @return Response
      */
-    public function destroy(Project $project)
+    public function destroy(User $user)
     {
-        $this->project->destroy($project);
+        $this->user->destroy($user);
         return "Done!";
     }
 }

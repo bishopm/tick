@@ -12,4 +12,9 @@ class Task extends Model
     {
         return $this->belongsTo('App\Models\Project');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User');
+    }
 }

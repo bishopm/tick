@@ -31,16 +31,34 @@ class TasksController extends Controller
         return $this->task->all();
     }
 
+    public function show($id)
+    {
+        return Task::with('project', 'users')->find($id);
+    }
+
+    public function toggle($id)
+    {
+        $task=Task::with('project')->find($id);
+        if ($task->done) {
+            $task->done = null;
+        } else {
+            $task->done = 1;
+        }
+        $task->save();
+        return $this->task->all();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  Request $request
      * @return Response
      */
-    public function store($project, CreateTaskRequest $request)
+    public function store(Request $request)
     {
-        return $request->all();
-        return $this->task->create($request->all());
+        $task = $this->task->create($request->except('users'));
+        $task->users()->sync($request->users);
+        return $task;
     }
 
     /**
@@ -50,7 +68,7 @@ class TasksController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(Task $task, UpdateTaskRequest $request)
+    public function update(Task $task, Request $request)
     {
         return $this->task->update($task, $request->all());
     }

@@ -84,6 +84,13 @@ $app->register(App\Providers\EventServiceProvider::class);
 $app->register('Nord\Lumen\Cors\CorsServiceProvider');
 
 $app->bind(
+    'App\Repositories\ProjectsRepository',
+    function () {
+        $repository = new \App\Repositories\ProjectsRepository(new \App\Models\Project());
+        return $repository;
+    }
+);
+$app->bind(
     'App\Repositories\TasksRepository',
     function () {
         $repository = new \App\Repositories\TasksRepository(new \App\Models\Task());
@@ -91,9 +98,9 @@ $app->bind(
     }
 );
 $app->bind(
-    'App\Repositories\ProjectsRepository',
+    'App\Repositories\UsersRepository',
     function () {
-        $repository = new \App\Repositories\ProjectsRepository(new \App\Models\Project());
+        $repository = new \App\Repositories\UsersRepository(new \App\Models\User());
         return $repository;
     }
 );
