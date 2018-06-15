@@ -39,6 +39,7 @@ class TasksController extends Controller
      */
     public function store($project, CreateTaskRequest $request)
     {
+        return $request->all();
         return $this->task->create($request->all());
     }
 
