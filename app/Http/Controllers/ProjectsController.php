@@ -6,17 +6,19 @@ use App\Models\Project;
 use App\Repositories\ProjectsRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Repositories\UsersRepository;
 
 class ProjectsController extends Controller
 {
     /**
      * @var ProjectRepository
      */
-    private $project;
+    private $project, $user;
 
-    public function __construct(ProjectsRepository $project)
+    public function __construct(ProjectsRepository $project, UsersRepository $user)
     {
         $this->project = $project;
+        $this->user = $user;
     }
 
     /**
@@ -25,9 +27,14 @@ class ProjectsController extends Controller
      * @return Response
      */
 
-    public function index()
+    public function index($id)
     {
-        return $this->project->all();
+        return $this->user->myactiveprojects($id);
+    }
+
+    public function someday($id)
+    {
+        return $this->project->getByAttributes(array('inactive'=>1));
     }
 
     public function show($id)
@@ -43,7 +50,9 @@ class ProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->project->create($request->all());
+        $project = $this->project->create($request->except('users'));
+        $project->users()->sync($request->users);
+        return $project;
     }
 
     /**
@@ -53,9 +62,12 @@ class ProjectsController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(Project $project, Request $request)
+    public function update(Request $request, $id)
     {
-        return $this->project->update($project, $request->all());
+        $project = $this->project->find($id);
+        $this->project->update($project, $request->except('users'));
+        $project->users()->sync($request->users);
+        return $project;
     }
 
     /**

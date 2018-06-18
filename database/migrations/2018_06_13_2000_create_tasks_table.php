@@ -16,6 +16,7 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->string('task');
             $table->integer('project_id')->default(0);
+            $table->integer('done')->default(0);
             $table->timestamp('priority')->useCurrent();
             $table->Timestamps();
         });

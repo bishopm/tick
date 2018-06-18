@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\Project;
 use App\Repositories\TasksRepository;
+use App\Repositories\UsersRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -14,10 +15,12 @@ class TasksController extends Controller
      * @var TaskRepository
      */
     private $task;
+    private $user;
 
-    public function __construct(TasksRepository $task)
+    public function __construct(TasksRepository $task, UsersRepository $user)
     {
         $this->task = $task;
+        $this->user = $user;
     }
 
     /**
@@ -29,6 +32,11 @@ class TasksController extends Controller
     public function index()
     {
         return $this->task->all();
+    }
+
+    public function mytasks($id)
+    {
+        return $this->user->mytasks($id);
     }
 
     public function show($id)
@@ -68,9 +76,12 @@ class TasksController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(Task $task, Request $request)
+    public function update(Request $request, $id)
     {
-        return $this->task->update($task, $request->all());
+        $task = $this->task->find($id);
+        $this->task->update($task, $request->except('users'));
+        $task->users()->sync($request->users);
+        return $task;
     }
 
     /**
@@ -79,9 +90,11 @@ class TasksController extends Controller
      * @param  Task $task
      * @return Response
      */
-    public function destroy(Task $task)
+    public function destroy(Request $request)
     {
-        $this->task->destroy($task);
+        $task = $this->task->find($request->id);
+        $task->users()->detach();
+        $task->delete();
         return "Done!";
     }
 }

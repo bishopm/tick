@@ -10,11 +10,23 @@ class User extends Model
 
     public function projects()
     {
-        return $this->hasMany('App\Models\Project');
+        return $this->belongsToMany('App\Models\Project');
     }
 
     public function tasks()
     {
         return $this->belongsToMany('App\Models\Task');
     }
+
+    public function activetasks()
+    {
+        $today = date('Y-m-d');
+        return $this->belongsToMany('App\Models\Task')->where('priority', '<=', $today)->where('done', 0);
+    }
+
+    public function activeprojects()
+    {
+        return $this->belongsToMany('App\Models\Project')->where('inactive','=','0');
+    }
+
 }

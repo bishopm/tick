@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Repositories\UsersRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -33,7 +34,24 @@ class UsersController extends Controller
 
     public function show($id)
     {
-        return User::with('project')->find($id);
+        $user = User::with('projects')->find($id);
+        $user->team = $this->user->myteam($id);
+        return $user;
+    }
+
+    public function login(Request $request)
+    {
+        $user=User::where('email',$request->email)->first();
+        if (Hash::check($request->password, $user->password)){
+            $user->team = $this->user->myteam($user->id);
+            return $user;
+        } else {
+            return "Error";
+        }
+    }
+
+    public function team($userid) {
+        return $this->user->myteam($userid);
     }
 
     /**
