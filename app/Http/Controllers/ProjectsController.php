@@ -13,7 +13,8 @@ class ProjectsController extends Controller
     /**
      * @var ProjectRepository
      */
-    private $project, $user;
+    private $project;
+    private $user;
 
     public function __construct(ProjectsRepository $project, UsersRepository $user)
     {
@@ -39,7 +40,7 @@ class ProjectsController extends Controller
 
     public function show($id)
     {
-        return Project::with('tasks')->find($id);
+        return Project::with('tasks', 'users')->find($id);
     }
 
     /**
