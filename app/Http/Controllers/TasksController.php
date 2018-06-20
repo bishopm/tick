@@ -53,7 +53,7 @@ class TasksController extends Controller
             $task->done = 1;
         }
         $task->save();
-        return $this->task->all();
+        return "Toggled";
     }
 
     /**
