@@ -35,7 +35,7 @@ class ProjectsController extends Controller
 
     public function someday($id)
     {
-        return $this->project->getByAttributes(array('inactive'=>1));
+        return $this->user->myinactiveprojects($id);
     }
 
     public function show($id)

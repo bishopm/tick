@@ -28,4 +28,9 @@ class User extends Model
     {
         return $this->belongsToMany('App\Models\Project')->where('inactive', '=', 'no');
     }
+
+    public function inactiveprojects()
+    {
+        return $this->belongsToMany('App\Models\Project')->where('inactive', '=', 'yes');
+    }
 }

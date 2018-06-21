@@ -13,7 +13,12 @@ class UsersRepository extends EloquentBaseRepository
 
     public function myactiveprojects($id)
     {
-        return $this->model->with('projects')->where('id', $id)->first();
+        return $this->model->with('activeprojects')->where('id', $id)->first();
+    }
+
+    public function myinactiveprojects($id)
+    {
+        return $this->model->with('inactiveprojects')->where('id', $id)->first();
     }
 
     public function myteam($id)
@@ -26,10 +31,9 @@ class UsersRepository extends EloquentBaseRepository
             }
             if ($user->member_id <> $id) {
                 $data[]=$user->member_id;
-            }            
+            }
         }
         $data=array_unique($data);
-        return User::whereIn('id',$data)->get();
+        return User::whereIn('id', $data)->get();
     }
-
 }
