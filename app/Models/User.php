@@ -21,12 +21,11 @@ class User extends Model
     public function activetasks()
     {
         $today = date('Y-m-d');
-        return $this->belongsToMany('App\Models\Task')->where('priority', '<=', $today)->where('done', 0);
+        return $this->belongsToMany('App\Models\Task')->where('priority', '<=', $today)->where('done', 'no');
     }
 
     public function activeprojects()
     {
-        return $this->belongsToMany('App\Models\Project')->where('inactive','=','0');
+        return $this->belongsToMany('App\Models\Project')->where('inactive', '=', 'no');
     }
-
 }

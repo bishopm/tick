@@ -47,10 +47,10 @@ class TasksController extends Controller
     public function toggle($id)
     {
         $task=Task::with('project')->find($id);
-        if ($task->done) {
-            $task->done = null;
+        if ($task->done == "yes") {
+            $task->done = "no";
         } else {
-            $task->done = 1;
+            $task->done = "yes";
         }
         $task->save();
         return "Toggled";
