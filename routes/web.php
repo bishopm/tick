@@ -9,6 +9,7 @@ $router->delete('projects/{project}', ['as' => 'projects.destroy', 'uses' => 'Pr
 
 // Tasks
 $router->get('mytasks/{user}', ['as' => 'tasks.mytasks', 'uses' => 'TasksController@mytasks']);
+$router->get('myunallocated/{user}', ['as' => 'tasks.myunallocated', 'uses' => 'TasksController@myunallocated']);
 $router->get('tasks', ['as' => 'tasks.index', 'uses' => 'TasksController@index']);
 $router->get('tasks/{task}', ['as' => 'tasks.show', 'uses' => 'TasksController@show']);
 $router->get('tasks/{task}/toggle', ['as' => 'tasks.show', 'uses' => 'TasksController@toggle']);

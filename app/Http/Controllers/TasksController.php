@@ -39,6 +39,11 @@ class TasksController extends Controller
         return $this->user->mytasks($id);
     }
 
+    public function myunallocated($id)
+    {
+        return $this->user->myunallocated($id);
+    }
+
     public function show($id)
     {
         return Task::with('project', 'users')->find($id);

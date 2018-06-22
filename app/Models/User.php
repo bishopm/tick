@@ -24,6 +24,11 @@ class User extends Model
         return $this->belongsToMany('App\Models\Task')->where('priority', '<=', $today)->where('done', 'no');
     }
 
+    public function unallocatedtasks()
+    {
+        return $this->belongsToMany('App\Models\Task')->where('project_id', 0);
+    }
+
     public function activeprojects()
     {
         return $this->belongsToMany('App\Models\Project')->where('inactive', '=', 'no');

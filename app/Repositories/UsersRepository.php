@@ -11,6 +11,11 @@ class UsersRepository extends EloquentBaseRepository
         return $this->model->with('activeprojects.activetasks')->where('id', $id)->first();
     }
 
+    public function myunallocated($id)
+    {
+        return $this->model->with('unallocatedtasks')->where('id', $id)->first();
+    }
+
     public function myactiveprojects($id)
     {
         return $this->model->with('activeprojects')->where('id', $id)->first();
