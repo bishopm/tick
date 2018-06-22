@@ -8,7 +8,7 @@ class UsersRepository extends EloquentBaseRepository
 {
     public function mytasks($id)
     {
-        return $this->model->with('activetasks')->where('id', $id)->first();
+        return $this->model->with('activeprojects.activetasks')->where('id', $id)->first();
     }
 
     public function myactiveprojects($id)
