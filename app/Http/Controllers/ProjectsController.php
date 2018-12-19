@@ -66,7 +66,7 @@ class ProjectsController extends Controller
     public function update(Request $request, $id)
     {
         $project = $this->project->find($id);
-        $this->project->update($project, $request->except('users'));
+        $this->project->update($project, $request->except('users', 'q'));
         $project->users()->sync($request->users);
         return $project;
     }
