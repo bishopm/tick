@@ -69,7 +69,7 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        $task = $this->task->create($request->except('users'));
+        $task = $this->task->create($request->except('users','q'));
         $task->users()->sync($request->users);
         return $task;
     }
