@@ -84,7 +84,7 @@ class TasksController extends Controller
     public function update(Request $request, $id)
     {
         $task = $this->task->find($id);
-        $this->task->update($task, $request->except('users'));
+        $this->task->update($task, $request->except('users', 'q'));
         $task->users()->sync($request->users);
         return $task;
     }
